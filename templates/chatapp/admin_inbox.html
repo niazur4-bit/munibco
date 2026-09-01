@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Messages — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="messages" %}
+  <div class="chat-shell" style="flex:1;">
+    <div class="thread-list">
+      {% for t in threads %}
+      <a href="{% url 'chatapp:thread' t.client.id %}" class="thread-item" style="display:flex;">
+        <div>
+          <div class="name">{{ t.client.get_full_name|default:t.client.username }}</div>
+          <div class="preview">{% if t.last %}{{ t.last.body|default:"Attachment"|truncatechars:28 }}{% else %}No messages yet{% endif %}</div>
+        </div>
+        {% if t.unread %}<span class="badge">{{ t.unread }}</span>{% endif %}
+      </a>
+      {% empty %}
+      <div class="empty-state"><i class="fa-solid fa-comments"></i><p>No clients yet.</p></div>
+      {% endfor %}
+    </div>
+    <div class="chat-window">
+      <div class="empty-state" style="margin:auto;"><i class="fa-solid fa-comment-dots"></i><p>Select a client to start messaging.</p></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

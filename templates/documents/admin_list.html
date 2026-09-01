@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Documents — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="documents" %}
+  <div class="dash-main">
+    <div class="dash-head">
+      <div><h1>Client Documents</h1><p>Files shared by clients, and files sent to them</p></div>
+      <a href="{% url 'documents:admin_upload' %}" class="btn btn-gold">+ Send Document</a>
+    </div>
+    <div class="panel">
+      <form method="get" style="margin-bottom:18px;">
+        <select name="client" onchange="this.form.submit()" style="padding:8px 12px;border:1px solid var(--line);border-radius:4px;">
+          <option value="">All Clients</option>
+          {% for c in clients %}
+          <option value="{{ c.id }}" {% if selected_client == c.id|stringformat:"s" %}selected{% endif %}>{{ c.get_full_name|default:c.username }}</option>
+          {% endfor %}
+        </select>
+      </form>
+      {% if docs %}
+      {% for d in docs %}
+      <div class="doc-row">
+        <div class="doc-meta">
+          <i class="fa-solid fa-file-lines"></i>
+          <div>
+            <div class="title">{{ d.title }}</div>
+            <div class="sub">Client: {{ d.owner.get_full_name|default:d.owner.username }} &middot; {{ d.get_category_display }} &middot; sent by {{ d.uploaded_by.get_full_name|default:d.uploaded_by.username }} &middot; {{ d.uploaded_at|date:"d M Y" }}</div>
+          </div>
+        </div>
+        <div class="doc-actions">
+          <a href="{{ d.file.url }}" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+          <a href="{% url 'documents:delete' d.id %}" class="danger" onclick="return confirm('Delete this document?')"><i class="fa-solid fa-trash"></i> Delete</a>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="empty-state"><i class="fa-solid fa-folder-open"></i><p>No documents yet.</p></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

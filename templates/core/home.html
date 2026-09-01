@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Munib and Co — Your Trusted Partner in Financial Excellence{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow">Chartered Certified Accountant</div>
+      <h1>Your trusted partner <span class="accent">in financial excellence.</span></h1>
+      <p class="lead">We provide professional, reliable and result-oriented accounting, taxation and advisory services to individuals, businesses and organizations.</p>
+      <p class="hero-tagline">"Accuracy. Integrity. Excellence."</p>
+      <div class="btn-row">
+        <a href="{% url 'accounts:register' %}" class="btn btn-gold">Open a Client Account</a>
+        <a href="{% url 'core:services' %}" class="btn btn-outline">View Our Services</a>
+      </div>
+      <div class="hero-values">
+        <div><i class="fa-solid fa-bullseye"></i> Accuracy in every detail</div>
+        <div><i class="fa-solid fa-shield-halved"></i> Honesty &amp; transparency</div>
+        <div><i class="fa-solid fa-user-lock"></i> Your data is safe with us</div>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <h3>Why clients choose us</h3>
+      <ul>
+        {% for item in why_choose_us %}
+        <li><i class="fa-solid fa-circle-check"></i> {{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Our Services</div>
+      <p>Everything your business needs to stay compliant, organized and audit-ready.</p>
+    </div>
+    <div class="services-grid">
+      {% for s in services %}
+      <div class="service-card">
+        <div class="service-icon"><i class="fa-solid fa-{{ s.icon }}"></i></div>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap values-strip">
+    <div class="value-box">
+      <i class="fa-solid fa-bullseye"></i>
+      <h4>Accuracy</h4>
+      <p>We ensure precision in every detail.</p>
+    </div>
+    <div class="value-box">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h4>Integrity</h4>
+      <p>We act with honesty and transparency.</p>
+    </div>
+    <div class="value-box">
+      <i class="fa-solid fa-user-shield"></i>
+      <h4>Confidentiality</h4>
+      <p>Your data is safe with us.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Tax compliant today, successful tomorrow.</h2>
+    <p>Get a secure client portal to send documents, message our team, and track your filings in real time.</p>
+    <a href="{% url 'accounts:register' %}" class="btn btn-gold">Get Started</a>
+  </div>
+</section>
+
+{% endblock %}

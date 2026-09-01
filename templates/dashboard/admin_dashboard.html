@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Munib and Co{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="dashboard" %}
+  <div class="dash-main">
+    <div class="dash-head">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Firm-wide overview across all clients</p>
+      </div>
+      <a href="{% url 'dashboard:record_create' %}" class="btn btn-gold">+ New Service Record</a>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><i class="fa-solid fa-users"></i><div class="label">Clients</div><div class="value">{{ clients_count }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-file-invoice-dollar"></i><div class="label">Service Records</div><div class="value">{{ records_count }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-sack-dollar"></i><div class="label">Total Revenue</div><div class="value">Rs. {{ total_revenue|floatformat:0 }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-comments"></i><div class="label">Unread Messages</div><div class="value">{{ unread }}</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">{{ revenue_bar3d|safe }}</div>
+      <div class="chart-card">{{ trend_surface3d|safe }}</div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">{{ status_pie|safe }}</div>
+      <div class="panel" style="margin:0;">
+        <h3>Recent Service Records</h3>
+        {% if recent_records %}
+        <table class="data-table">
+          <thead><tr><th>Client</th><th>Service</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+          {% for r in recent_records %}
+            <tr>
+              <td>{{ r.client.get_full_name|default:r.client.username }}</td>
+              <td>{{ r.get_service_type_display }}</td>
+              <td>Rs. {{ r.amount|floatformat:0 }}</td>
+              <td><span class="tag tag-{{ r.status }}">{{ r.get_status_display }}</span></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No service records yet. Add one to see it here.</p></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

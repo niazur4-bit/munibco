@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Service Records — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="records" %}
+  <div class="dash-main">
+    <div class="dash-head">
+      <div><h1>Service Records</h1><p>All billable engagements across clients</p></div>
+      <a href="{% url 'dashboard:record_create' %}" class="btn btn-gold">+ New Record</a>
+    </div>
+    <div class="panel">
+      {% if records %}
+      <table class="data-table">
+        <thead><tr><th>Client</th><th>Service</th><th>Month</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for r in records %}
+          <tr>
+            <td>{{ r.client.get_full_name|default:r.client.username }}</td>
+            <td>{{ r.get_service_type_display }}</td>
+            <td>{{ r.month|date:"M Y" }}</td>
+            <td>Rs. {{ r.amount|floatformat:0 }}</td>
+            <td><span class="tag tag-{{ r.status }}">{{ r.get_status_display }}</span></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No service records yet.</p></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Upload Document — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="documents" %}
+  <div class="dash-main">
+    <div class="dash-head"><div><h1>{% if user.is_admin_role %}Send Document to Client{% else %}Upload Document{% endif %}</h1></div></div>
+    <div class="panel" style="max-width:520px;">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+          <label>{{ field.label }}</label>
+          {{ field }}
+          {{ field.errors }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-gold">Upload</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

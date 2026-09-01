@@ -1,0 +1,16 @@
+<aside class="dash-sidebar">
+  {% if user.is_admin_role %}
+    <a href="{% url 'dashboard:admin_dashboard' %}" class="{% if active == 'dashboard' %}active{% endif %}"><i class="fa-solid fa-chart-simple"></i> Dashboard</a>
+    <a href="{% url 'dashboard:record_list' %}" class="{% if active == 'records' %}active{% endif %}"><i class="fa-solid fa-file-invoice-dollar"></i> Service Records</a>
+    <a href="{% url 'documents:list' %}" class="{% if active == 'documents' %}active{% endif %}"><i class="fa-solid fa-folder-open"></i> Documents</a>
+    <a href="{% url 'chatapp:inbox' %}" class="{% if active == 'messages' %}active{% endif %}"><i class="fa-solid fa-comments"></i> Messages{% if unread_message_count %}<span class="badge">{{ unread_message_count }}</span>{% endif %}</a>
+    <div class="divider"></div>
+    <a href="/admin/"><i class="fa-solid fa-gear"></i> Django Admin</a>
+  {% else %}
+    <a href="{% url 'dashboard:client_dashboard' %}" class="{% if active == 'dashboard' %}active{% endif %}"><i class="fa-solid fa-chart-simple"></i> Dashboard</a>
+    <a href="{% url 'documents:list' %}" class="{% if active == 'documents' %}active{% endif %}"><i class="fa-solid fa-folder-open"></i> My Documents</a>
+    <a href="{% url 'chatapp:inbox' %}" class="{% if active == 'messages' %}active{% endif %}"><i class="fa-solid fa-comments"></i> Messages{% if unread_message_count %}<span class="badge">{{ unread_message_count }}</span>{% endif %}</a>
+    <div class="divider"></div>
+    <a href="{% url 'accounts:profile' %}"><i class="fa-solid fa-user"></i> Profile</a>
+  {% endif %}
+</aside>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}New Service Record — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="records" %}
+  <div class="dash-main">
+    <div class="dash-head"><div><h1>New Service Record</h1><p>Log a billable engagement for a client</p></div></div>
+    <div class="panel" style="max-width:520px;">
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+          <label>{{ field.label }}</label>
+          {{ field }}
+          {{ field.errors }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-gold">Save Record</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

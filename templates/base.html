@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Munib and Co — Chartered Certified Accountant{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="{% url 'core:home' %}" class="brand">
+      <span class="brand-mark">M<span class="brand-mark-accent">&amp;</span>C</span>
+      <span class="brand-text">
+        <strong>Munib and Co</strong>
+        <em>Chartered Certified Accountant</em>
+      </span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="{% url 'core:home' %}">Home</a>
+      <a href="{% url 'core:services' %}">Services</a>
+      <a href="{% url 'core:about' %}">Why Us</a>
+      <a href="{% url 'core:contact' %}">Contact</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard:redirect' %}">Dashboard</a>
+        <a href="{% url 'chatapp:inbox' %}" class="nav-msg">Messages{% if unread_message_count %}<span class="badge">{{ unread_message_count }}</span>{% endif %}</a>
+        <a href="{% url 'accounts:logout' %}" class="nav-cta">Log out</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}">Client Login</a>
+        <a href="{% url 'accounts:register' %}" class="nav-cta">Get Started</a>
+      {% endif %}
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  {% if messages %}
+    <div class="wrap flash-wrap">
+      {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <span class="brand-mark small">M<span class="brand-mark-accent">&amp;</span>C</span>
+      <p>We Take Care of Your Numbers, So You Can Focus on Your Business.</p>
+    </div>
+    <div>
+      <h4>Get in Touch</h4>
+      <p><i class="fa-solid fa-phone"></i> 0342 8969289</p>
+      <p><i class="fa-solid fa-envelope"></i> Muniburrahman111@gmail.com</p>
+      <p><i class="fa-solid fa-location-dot"></i> Swat, Khyber Pakhtunkhwa, Pakistan</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <p><a href="{% url 'core:services' %}">Our Services</a></p>
+      <p><a href="{% url 'core:about' %}">Why Choose Us</a></p>
+      <p><a href="{% url 'core:contact' %}">Contact Us</a></p>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>&copy; {% now "Y" %} Munib and Co. Accuracy. Integrity. Excellence.</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function(){
+  document.getElementById('mainNav').classList.toggle('open');
+});
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

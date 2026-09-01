@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Messages — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="messages" %}
+  <div class="dash-main">
+    <div class="empty-state"><i class="fa-solid fa-comments"></i><p>Our team isn't set up to receive messages yet. Please check back soon.</p></div>
+  </div>
+</div>
+{% endblock %}

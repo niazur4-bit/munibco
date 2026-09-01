@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ other.get_full_name|default:other.username }} — Messages{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="messages" %}
+  <div class="chat-shell" style="flex:1;">
+    {% if user.is_admin_role %}
+    <div class="thread-list">
+      {% for c in user.received_messages.all|dictsort:"sender.username" %}{% endfor %}
+      <a href="{% url 'chatapp:inbox' %}" class="thread-item"><div class="name"><i class="fa-solid fa-arrow-left"></i> All conversations</div></a>
+    </div>
+    {% endif %}
+    <div class="chat-window">
+      <div class="chat-header">{{ other.get_full_name|default:other.username }}
+        <span style="font-weight:400;color:var(--grey);font-size:.8rem;"> &middot; {% if other.is_admin_role %}Munib and Co Team{% else %}Client{% endif %}</span>
+      </div>
+      <div class="chat-body" id="chatBody">
+        {% for m in messages_list %}
+        <div class="bubble {% if m.sender_id == user.id %}mine{% else %}theirs{% endif %}">
+          {% if m.body %}{{ m.body }}{% endif %}
+          {% if m.attachment %}<div><a href="{{ m.attachment.url }}" target="_blank"><i class="fa-solid fa-paperclip"></i> {{ m.attachment.name|slice:"-40:" }}</a></div>{% endif %}
+          <span class="time">{{ m.timestamp|date:"d M, H:i" }}</span>
+        </div>
+        {% empty %}
+        <div class="empty-state" style="margin:auto;"><i class="fa-solid fa-comment-dots"></i><p>No messages yet. Say hello!</p></div>
+        {% endfor %}
+      </div>
+      <form method="post" enctype="multipart/form-data" class="chat-form">
+        {% csrf_token %}
+        <label class="attach-label"><i class="fa-solid fa-paperclip"></i>{{ form.attachment }}</label>
+        {{ form.body }}
+        <button type="submit" class="btn btn-gold">Send</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+var body = document.getElementById('chatBody');
+if (body) { body.scrollTop = body.scrollHeight; }
+</script>
+{% endblock %}

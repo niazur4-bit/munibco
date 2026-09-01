@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Why Choose Us — Munib and Co{% endblock %}
+{% block content %}
+<section class="hero" style="padding:60px 0;">
+  <div class="wrap">
+    <div class="hero-eyebrow">Why Choose Munib and Co?</div>
+    <h1 style="max-width:24ch;">A firm built on accuracy, integrity and excellence.</h1>
+    <p class="lead">We take care of your numbers, so you can focus on your business.</p>
+  </div>
+</section>
+<section class="section-alt">
+  <div class="wrap why-grid">
+    {% for item in why_choose_us %}
+    <div class="why-item">
+      <i class="fa-solid fa-circle-check"></i>
+      <span>{{ item }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<section>
+  <div class="wrap" style="max-width:760px;">
+    <div class="section-head" style="margin-bottom:20px;">
+      <div class="kicker">Our Promise</div>
+    </div>
+    <p style="color:var(--grey);font-size:1.02rem;text-align:center;">
+      We provide professional, reliable and result-oriented accounting, taxation and advisory services
+      to individuals, businesses and organizations across Swat, Khyber Pakhtunkhwa and beyond — with the
+      same discipline whether it's a single income tax return or a full company incorporation.
+    </p>
+  </div>
+</section>
+{% endblock %}

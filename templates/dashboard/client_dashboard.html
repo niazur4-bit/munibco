@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard — Munib and Co{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="dashboard" %}
+  <div class="dash-main">
+    <div class="dash-head">
+      <div>
+        <h1>Welcome, {{ user.get_full_name|default:user.username }}</h1>
+        <p>Here's a snapshot of your account with Munib and Co</p>
+      </div>
+      <a href="{% url 'documents:client_upload' %}" class="btn btn-gold">+ Upload Document</a>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><i class="fa-solid fa-sack-dollar"></i><div class="label">Total Spend</div><div class="value">Rs. {{ total_spend|floatformat:0 }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-hourglass-half"></i><div class="label">Pending Services</div><div class="value">{{ pending_count }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-circle-check"></i><div class="label">Completed</div><div class="value">{{ completed_count }}</div></div>
+      <div class="stat-card"><i class="fa-solid fa-folder"></i><div class="label">Documents</div><div class="value">{{ docs_count }}</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">{{ scatter3d|safe }}</div>
+      <div class="chart-card">{{ status_pie|safe }}</div>
+    </div>
+
+    <div class="panel">
+      <h3>My Service History</h3>
+      {% if records %}
+      <table class="data-table">
+        <thead><tr><th>Service</th><th>Month</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for r in records %}
+          <tr>
+            <td>{{ r.get_service_type_display }}</td>
+            <td>{{ r.month|date:"M Y" }}</td>
+            <td>Rs. {{ r.amount|floatformat:0 }}</td>
+            <td><span class="tag tag-{{ r.status }}">{{ r.get_status_display }}</span></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No service records yet. Once our team logs your first engagement, it'll appear here.</p></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

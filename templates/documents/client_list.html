@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}My Documents — Munib and Co{% endblock %}
+{% block content %}
+<div class="dash-shell">
+  {% include "partials/dash_sidebar.html" with active="documents" %}
+  <div class="dash-main">
+    <div class="dash-head">
+      <div><h1>My Documents</h1><p>Files you've shared with us, and files we've sent you</p></div>
+      <a href="{% url 'documents:client_upload' %}" class="btn btn-gold">+ Upload Document</a>
+    </div>
+    <div class="panel">
+      {% if docs %}
+      {% for d in docs %}
+      <div class="doc-row">
+        <div class="doc-meta">
+          <i class="fa-solid fa-file-lines"></i>
+          <div>
+            <div class="title">{{ d.title }}</div>
+            <div class="sub">{{ d.get_category_display }} &middot; sent by {{ d.uploaded_by.get_full_name|default:d.uploaded_by.username }} &middot; {{ d.uploaded_at|date:"d M Y" }}</div>
+          </div>
+        </div>
+        <div class="doc-actions">
+          <a href="{{ d.file.url }}" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+          {% if d.uploaded_by_id == user.id %}
+          <a href="{% url 'documents:delete' d.id %}" class="danger" onclick="return confirm('Delete this document?')"><i class="fa-solid fa-trash"></i> Delete</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="empty-state"><i class="fa-solid fa-folder-open"></i><p>No documents yet. Upload your first file to share it with our team.</p></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

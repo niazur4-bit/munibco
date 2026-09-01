@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Our Services — Munib and Co{% endblock %}
+{% block content %}
+<section class="hero" style="padding:60px 0;">
+  <div class="wrap">
+    <div class="hero-eyebrow">What we offer</div>
+    <h1 style="max-width:24ch;">Our Services</h1>
+    <p class="lead">Complete assistance across tax, compliance, incorporation and audit — for individuals, AOPs and companies.</p>
+  </div>
+</section>
+<section class="section-alt">
+  <div class="wrap">
+    <div class="services-grid">
+      {% for s in services %}
+      <div class="service-card">
+        <div class="service-icon"><i class="fa-solid fa-{{ s.icon }}"></i></div>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Need help with any of these?</h2>
+    <p>Create a free client account and start a conversation with our team directly.</p>
+    <a href="{% url 'accounts:register' %}" class="btn btn-gold">Get Started</a>
+  </div>
+</section>
+{% endblock %}

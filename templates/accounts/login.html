@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Log In — Munib and Co{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="form-card">
+    <h2>Welcome back</h2>
+    <p class="sub">Log in to your client or admin dashboard.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="field">
+        <label>Username or Email</label>
+        {{ form.username }}
+      </div>
+      <div class="field">
+        <label>Password</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="btn btn-gold btn-block">Log In</button>
+    </form>
+    <div class="form-foot">
+      <a href="{% url 'accounts:password_reset' %}">Forgot password?</a>
+    </div>
+    <div class="form-foot">New here? <a href="{% url 'accounts:register' %}">Create an account</a></div>
+  </div>
+</div>
+{% endblock %}
